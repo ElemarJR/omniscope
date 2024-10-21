@@ -12,6 +12,7 @@ import {
 } from "@/components/catalyst/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import RankingIndicator from "@/components/RankingIndicator";
+import { Heading } from "@/components/catalyst/heading";
 
 const GET_CLIENT_STATS = gql`
   query GetClientStats($accountManagerName: String, $filters: [FilterInput]) {
@@ -257,10 +258,12 @@ const AccountManagerHome: React.FC<AccountManagerHomeProps> = ({ user }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card className="mt-8 shadow-lg">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold text-gray-800">
-                {clientStatsData.timesheet.byClient.filter(filterItems).length > 10
-                  ? "Top 10 Clients"
-                  : "Clients"}
+              <CardTitle>
+                <Heading level={2}>
+                  {clientStatsData.timesheet.byClient.filter(filterItems).length > 10
+                    ? "Top 10 Clients"
+                    : "Clients"}
+                </Heading>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -307,10 +310,12 @@ const AccountManagerHome: React.FC<AccountManagerHomeProps> = ({ user }) => {
 
           <Card className="mt-8 shadow-lg">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold text-gray-800">
+              <CardTitle>
+                <Heading level={2}>
                 {clientStatsData.timesheet.bySponsor.filter(filterItems).length > 10
                   ? "Top 10 Sponsors"
                   : "Sponsors"}
+                </Heading>
               </CardTitle>
             </CardHeader>
             <CardContent>

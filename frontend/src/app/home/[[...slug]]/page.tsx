@@ -44,7 +44,7 @@ export default function HomePage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Header user={user} />
+      <Header user={user} className="mb-8" />
       {user && user.kind === "ACCOUNT_MANAGER" && <AccountManagerHome user={user} />}
     </div>
   );

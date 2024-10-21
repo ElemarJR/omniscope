@@ -11,11 +11,12 @@ interface User {
 
 interface HeaderProps {
   user: User;
+  className?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ user }) => {
+const Header: React.FC<HeaderProps> = ({ user, className }) => {
   return (
-    <header className="mb-8">
+    <header className={className}>
       <div className="flex flex-col md:flex-row items-center justify-between">
         <div className="flex items-center mb-4 md:mb-0">
           <Avatar
@@ -24,8 +25,8 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
             alt={user?.name || "User"}
           />
           <div>
-            <Heading className="text-3xl font-bold text-gray-800">
-              Welcome back, {user?.name || "User"}!
+            <Heading level={1}>
+              {user?.name || "User"}
             </Heading>
             {user?.position && (
               <p className="text-lg text-gray-600 mt-1">{user.position}</p>
