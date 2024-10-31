@@ -36,6 +36,8 @@ import {
   ChevronUp,
   User2,
   ChevronsUpDown,
+  ChartBarIcon,
+  PenIcon,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useQuery, gql } from "@apollo/client";
@@ -120,6 +122,19 @@ export function OmniscopeSidebar() {
     },
   ];
 
+  const ontologySidebarItems = [
+    {
+      title: "Statistics",
+      url: "/ontology/statistics",
+      icon: ChartBarIcon,
+    },
+    {
+      title: "Composers", 
+      url: "/ontology/composers",
+      icon: PenIcon,
+    },
+  ];
+  
   const administrativeSidebarItems = [
     {
       title: "Refresh data",
@@ -153,6 +168,7 @@ export function OmniscopeSidebar() {
       <SidebarContent>
         <OmniSidebarGroup title="Analytics" items={analyticsSidebarItems} />
         <OmniSidebarGroup title="About Us" items={aboutUsSidebarItems} />
+        <OmniSidebarGroup title="Ontology" items={ontologySidebarItems} />
         <OmniSidebarGroup
           title="Administrative"
           items={administrativeSidebarItems}
