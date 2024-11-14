@@ -13,6 +13,7 @@
     "@elastic/elasticsearch": "^8.15.2",
     "@headlessui/react": "^2.1.9",
     "@heroicons/react": "^2.1.5",
+    "@mdxeditor/editor": "^3.19.0",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.1.2",

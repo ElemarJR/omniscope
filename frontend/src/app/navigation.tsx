@@ -15,6 +15,7 @@ import {
   TargetIcon,
   ChartLineIcon,
   DollarSignIcon,
+  PencilIcon,
 } from "lucide-react";
 
 
@@ -95,6 +96,17 @@ export async function AboutUsSidebarItems() {
   ];
 }
 
+
+export async function OntologySidebarItems() {
+  return [
+    {
+      title: "Composer",
+      url: "/ontology/composer",
+      icon: PencilIcon,
+    },
+  ];
+}
+
 export async function AdministrativeSidebarItems() {
   return [
     {
@@ -104,3 +116,5 @@ export async function AdministrativeSidebarItems() {
     },
   ];
 }
+
+

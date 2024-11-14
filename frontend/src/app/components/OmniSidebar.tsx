@@ -30,6 +30,7 @@ import Logo from "./logo";
 import {
   AnalyticsSidebarItems,
   AboutUsSidebarItems,
+  OntologySidebarItems,
   AdministrativeSidebarItems,
 } from "@/app/navigation"
 
@@ -52,16 +53,19 @@ export function OmniSidebar() {
 
   const [analyticsItems, setAnalyticsItems] = React.useState<Array<{ title: string; url: string; icon: any }>>([]);
   const [aboutUsItems, setAboutUsItems] = React.useState<Array<{ title: string; url: string; icon: any }>>([]);
+  const [ontologyItems, setOntologyItems] = React.useState<Array<{ title: string; url: string; icon: any }>>([]);
   const [adminItems, setAdminItems] = React.useState<Array<{ title: string; url: string; icon: any }>>([]);
 
   React.useEffect(() => {
     async function loadItems() {
       const analytics = await AnalyticsSidebarItems();
       const aboutUs = await AboutUsSidebarItems();
+      const ontology = await OntologySidebarItems();
       const admin = await AdministrativeSidebarItems();
       
       setAnalyticsItems(analytics);
       setAboutUsItems(aboutUs);
+      setOntologyItems(ontology);
       setAdminItems(admin);
     }
     loadItems();
@@ -92,6 +96,7 @@ export function OmniSidebar() {
       <SidebarContent>
         <OmniSidebarGroup title="Analytics" items={analyticsItems} />
         <OmniSidebarGroup title="About Us" items={aboutUsItems} />
+        <OmniSidebarGroup title="Ontology" items={ontologyItems} />
         <OmniSidebarGroup
           title="Administrative"
           items={adminItems}
