@@ -431,6 +431,8 @@ type RevenueTrackingMonthly {
   totalHandsOnFee: Float!
   totalSquadFee: Float!
   byAccountManager: [RevenueTrackingByAccountManager!]!
+  hours: Float!
+  avgTicket: Float!
 }
 
 type RevenueTrackingByAccountManager {
@@ -446,6 +448,8 @@ type RevenueTrackingByAccountManager {
   total: Float!
   partial: Boolean
   byClient: [RevenueTrackingByClient!]!
+  hours: Float!
+  avgTicket: Float!
 }
 
 type RevenueTrackingByClient {
@@ -461,6 +465,8 @@ type RevenueTrackingByClient {
   total: Float!
   partial: Boolean
   bySponsor: [RevenueTrackingBySponsor!]!
+  hours: Float!
+  avgTicket: Float!
 }
 
 type RevenueTrackingBySponsor {
@@ -476,6 +482,8 @@ type RevenueTrackingBySponsor {
   total: Float!
   partial: Boolean
   byCase: [RevenueTrackingByCase!]!
+  hours: Float!
+  avgTicket: Float!
 }
 
 type RevenueTrackingByCase {
@@ -491,6 +499,8 @@ type RevenueTrackingByCase {
   total: Float!
   partial: Boolean
   byProject: [RevenueTrackingByProject!]!
+  hours: Float!
+  avgTicket: Float!
 }
 
 type RevenueTrackingByProject {
@@ -500,4 +510,5 @@ type RevenueTrackingByProject {
   hours: Float
   fee: Float!
   partial: Boolean
+  avgTicket: Float!
 }

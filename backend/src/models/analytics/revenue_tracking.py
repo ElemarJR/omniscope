@@ -103,7 +103,9 @@ def _compute_revenue_tracking_base(df: pd.DataFrame, date_of_interest: date, pro
                                 "consulting_pre_fee": sum(project["fee"] for project in by_project if project["kind"] == "consulting" and project["fixed"]),
                                 "hands_on_fee": sum(project["fee"] for project in by_project if project["kind"] == "handsOn"),
                                 "squad_fee": sum(project["fee"] for project in by_project if project["kind"] == "squad"),
-                                "by_project": sorted(by_project, key=lambda x: x["name"])
+                                "by_project": sorted(by_project, key=lambda x: x["name"]),
+                                "hours": sum(project["hours"] for project in by_project),
+                                "avg_ticket": sum(project["fee"] for project in by_project) / sum(project["hours"] for project in by_project)                                
                             }
                             
                             if "partial" in by_project[0]:
@@ -121,6 +123,8 @@ def _compute_revenue_tracking_base(df: pd.DataFrame, date_of_interest: date, pro
                         "consulting_pre_fee": sum(case["consulting_pre_fee"] for case in by_case),
                         "hands_on_fee": sum(case["hands_on_fee"] for case in by_case),
                         "squad_fee": sum(case["squad_fee"] for case in by_case),
+                        "hours": sum(case["hours"] for case in by_case),
+                        "avg_ticket": sum(case["fee"] for case in by_case) / sum(case["hours"] for case in by_case)
                         }
                     
                     if "partial" in by_case[0]:
@@ -139,6 +143,8 @@ def _compute_revenue_tracking_base(df: pd.DataFrame, date_of_interest: date, pro
                     "consulting_pre_fee": sum(sponsor["consulting_pre_fee"] for sponsor in by_sponsor),
                     "hands_on_fee": sum(sponsor["hands_on_fee"] for sponsor in by_sponsor),
                     "squad_fee": sum(sponsor["squad_fee"] for sponsor in by_sponsor),
+                    "hours": sum(sponsor["hours"] for sponsor in by_sponsor),
+                    "avg_ticket": sum(sponsor["fee"] for sponsor in by_sponsor) / sum(sponsor["hours"] for sponsor in by_sponsor)
                 }
                 
                 if "partial" in by_sponsor[0]:
@@ -157,7 +163,9 @@ def _compute_revenue_tracking_base(df: pd.DataFrame, date_of_interest: date, pro
                 "consulting_pre_fee": sum(client["consulting_pre_fee"] for client in by_client),
                 "hands_on_fee": sum(client["hands_on_fee"] for client in by_client),
                 "squad_fee": sum(client["squad_fee"] for client in by_client),
-                }
+                "hours": sum(client["hours"] for client in by_client),
+                "avg_ticket": sum(client["fee"] for client in by_client) / sum(client["hours"] for client in by_client)
+            }
             
             if "partial" in by_client[0]:
                 account_manager_["partial"] = any("partial" in client and client["partial"] for client in by_client)
@@ -196,6 +204,7 @@ def compute_regular_revenue_tracking(
                     "rate": project.rate.rate / 100,
                     "hours": project_df["TimeInHs"].sum(),
                     "fee": project_df["Revenue"].sum(),
+                    "avg_ticket": project.rate.rate / 100,
                     "fixed": False
                 }
         return None
@@ -248,12 +257,15 @@ def compute_pre_contracted_revenue_tracking(
                         number_of_months = months_on_start_year + months_on_end_year
                         
                 fee = project.billing.fee / 100 / number_of_months
+                total_hours = timesheet_df["TimeInHs"].sum()
 
                 return {
                     "kind": project.kind,
                     "name": project.name,
                     "fee": fee,
-                    "fixed": True
+                    "fixed": True,
+                    "hours": total_hours,
+                    "avg_ticket": fee / total_hours
                 }
             else:
                 project_df = timesheet_df[timesheet_df["ProjectId"] == project.id]
@@ -405,16 +417,19 @@ def compute_pre_contracted_revenue_tracking(
                                 account_manager_info["penalty"] = account_manager_info["penalty"] + penalty
                                 kind_info["penalty"] = kind_info["penalty"] + penalty  
                                 
-                            
-                # TODO: Verificar se tem algum colaborador lançando horas no primeiro dia de trabalho do mês
-                # TODO: fator individual por trabalhador   
-                # TODO: O que fazer com "trabalhaadores ocasionais"
-         
+                                # TODO: Verificar se tem algum colaborador lançando horas no primeiro dia de trabalho do mês
+                                # TODO: fator individual por trabalhador   
+                                # TODO: O que fazer com "trabalhaadores ocasionais"
+                                
+                
+                total_hours = timesheet_df["TimeInHs"].sum()
                 return {
                     "kind": project.kind,
                     "name": project.name,
                     "fee": partial_fee if partial else fee,
                     "partial": partial,
+                    "hours": total_hours,
+                    "avg_ticket": partial_fee / total_hours if partial else fee / total_hours,
                     "fixed": True
                 }
                 
